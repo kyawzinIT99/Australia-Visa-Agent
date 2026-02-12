@@ -65,7 +65,7 @@ class GmailReplyMonitor:
 #     def __init__(self):
 #         scopes = ['https://www.googleapis.com/auth/gmail.readonly']
 #         creds = service_account.Credentials.from_service_account_file(
-#             'gcpkyawzin.ccna.json', scopes=scopes
+#             'gcp-service-account.json', scopes=scopes
 #         )
 #         delegated_creds = creds.with_subject('kyawzin.ccna@gmail.com')
 #         self.service = build('gmail', 'v1', credentials=delegated_creds)

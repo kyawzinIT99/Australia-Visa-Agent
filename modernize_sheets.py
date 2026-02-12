@@ -22,7 +22,7 @@ def modernize_sheets_design():
     """
     scopes = ['https://www.googleapis.com/auth/spreadsheets']
     creds = service_account.Credentials.from_service_account_file(
-        'gcpkyawzin.ccna.json', scopes=scopes
+        'gcp-service-account.json', scopes=scopes
     )
     service = build('sheets', 'v4', credentials=creds)
     spreadsheet_id = os.getenv('EMAIL_TRACKING_SPREADSHEET_ID')

@@ -28,7 +28,7 @@ You need:
 
 1. Open your spreadsheet
 2. Click "Share"
-3. Add your service account email (found in `gcpkyawzin.ccna.json`)
+3. Add your service account email (found in `gcp-service-account.json`) 
 4. Give it "Editor" permissions
 
 ## Step 4: Update .env File

@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class GoogleSheetsService:
-    def __init__(self, service_account_file='gcpkyawzin.ccna.json'):
+    def __init__(self, service_account_file='gcp-service-account.json'):
         self.scopes = ['https://www.googleapis.com/auth/spreadsheets']
         self.creds = service_account.Credentials.from_service_account_file(
             service_account_file, scopes=self.scopes

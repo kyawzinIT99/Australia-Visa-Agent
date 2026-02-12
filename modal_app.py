@@ -6,7 +6,7 @@ app = modal.App("australia-visa-agent")
 
 # Define the image with all dependencies
 image = (
-    modal.Image.debian_slim(python_version="3.13")
+    modal.Image.debian_slim(python_version="3.11")
     .pip_install(
         "google-api-python-client",
         "google-auth-httplib2",
@@ -21,23 +21,20 @@ image = (
         "tavily-python",
         "pymupdf",
         "schedule",
+        "python-dateutil",
     )
+    .add_local_dir(".", remote_path="/root")
 )
 
 # Create a persistent volume for database and token storage
 volume = modal.Volume.from_name("visa-agent-data", create_if_missing=True)
-
-# Create secrets from environment variables
-# You'll need to create these secrets in Modal dashboard or via CLI
-# modal secret create visa-agent-env --from-dotenv .env
-# modal secret create gcp-credentials GOOGLE_APPLICATION_CREDENTIALS="$(cat gcpkyawzin.ccna.json)"
 
 def setup_gcp_credentials():
     """Write GCP credentials from env var to file"""
     import json
     creds_json = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
     if creds_json:
-        with open("/root/gcpkyawzin.ccna.json", "w") as f:
+        with open("/root/gcp-service-account.json", "w") as f:
             f.write(creds_json)
         print("✅ GCP credentials file created")
 
@@ -48,10 +45,10 @@ def setup_gcp_credentials():
         modal.Secret.from_name("gcp-credentials")
     ],
     volumes={"/data": volume},
-    keep_warm=1,
+    min_containers=1,
     timeout=3600,
 )
-@modal.asgi_app()
+@modal.wsgi_app()
 def web():
     """Flask web application endpoint"""
     import sys
@@ -102,7 +99,7 @@ def agent_worker():
     print("🤖 Starting agent worker...")
     init_db()
     agent = VisaAgent()
-    agent.run_polling_cycle()
+    agent.run_once()
     print("✅ Agent worker completed")
 
 

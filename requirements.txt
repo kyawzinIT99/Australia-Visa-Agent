@@ -11,3 +11,4 @@ rarfile
 tavily-python
 pymupdf
 schedule
+python-dateutil
