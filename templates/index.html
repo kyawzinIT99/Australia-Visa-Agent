@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australia Visa AI Agent | Premium Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #557aff;
+            --primary-rgb: 85, 122, 255;
+            --accent: #00f2fe;
+            --success: #00d285;
+            --warning: #ffb300;
+            --danger: #ff4d4d;
+            --bg: #030712;
+            --glass: rgba(17, 24, 39, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            /* Ensure vertical scrolling is always enabled */
+            background-image:
+                radial-gradient(circle at 10% 10%, rgba(var(--primary-rgb), 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(var(--primary-rgb), 0.15) 0%, transparent 40%),
+                linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.5));
+            background-attachment: fixed;
+            -webkit-overflow-scrolling: touch;
+            /* Smooth scrolling for iOS devices */
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        /* Top Navigation/Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.4);
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 100px;
+            border: 1px solid var(--glass-border);
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: var(--card-shadow);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+
+        .nav-btn {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            background: rgba(var(--primary-rgb), 0.1);
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .logo-nav-group {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .status-dot::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            border-radius: 50%;
+            animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s backwards;
+        }
+
+        .stat-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: var(--card-shadow);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(var(--primary-rgb), 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.1), transparent);
+            opacity: 0;
+            transition: 0.4s;
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .stat-value {
+            font-size: 44px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        /* Main Content Layout */
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 40px;
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s backwards;
+        }
+
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            box-shadow: var(--card-shadow);
+            /* Removed overflow: hidden to allow table scrolling if needed */
+        }
+
+        .panel-header {
+            padding: 30px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* Table Styling */
+        .table-container {
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+        }
+
+        th {
+            text-align: left;
+            padding: 0 20px 10px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        td:first-child {
+            border-left: 1px solid var(--glass-border);
+            border-radius: 16px 0 0 16px;
+        }
+
+        td:last-child {
+            border-right: 1px solid var(--glass-border);
+            border-radius: 0 16px 16px 0;
+        }
+
+        tr:hover td {
+            background: rgba(var(--primary-rgb), 0.08);
+            border-color: rgba(var(--primary-rgb), 0.3);
+            cursor: pointer;
+        }
+
+        tr.active td {
+            background: rgba(var(--primary-rgb), 0.15);
+            border-color: rgba(var(--primary-rgb), 0.5);
+        }
+
+        /* Status Badges */
+        .badge {
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .badge-Passed {
+            background: rgba(0, 210, 133, 0.15);
+            color: var(--success);
+        }
+
+        .badge-Review {
+            background: rgba(255, 179, 0, 0.15);
+            color: var(--warning);
+        }
+
+        .badge-Needs {
+            background: rgba(255, 179, 0, 0.15);
+            color: var(--warning);
+        }
+
+        .badge-Failed {
+            background: rgba(255, 77, 77, 0.15);
+            color: var(--danger);
+        }
+
+        /* Score Indicator */
+        .score-circle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.05);
+            border: 3px solid transparent;
+            position: relative;
+        }
+
+        /* Detail/Insights Panel */
+        .insights-panel {
+            padding: 30px;
+            height: fit-content;
+            max-height: calc(100vh - 80px);
+            /* Prevent cutting off if too tall */
+            overflow-y: auto;
+            /* Allow internal scrolling if content overflows */
+            position: sticky;
+            top: 40px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--glass-border) transparent;
+        }
+
+        .insights-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .insights-panel::-webkit-scrollbar-thumb {
+            background: var(--glass-border);
+            border-radius: 10px;
+        }
+
+        .insight-section {
+            margin-bottom: 30px;
+        }
+
+        .insight-section h4 {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .insight-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+        }
+
+        .insight-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .check-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .check-dot.completed {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        /* Animations */
+        @keyframes ping {
+
+            75%,
+            100% {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+
+            .insights-panel {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .powered-by {
+            font-size: 14px;
+            font-weight: 600;
+            background: linear-gradient(90deg, #ff00cc, #3333ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-left: 5px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px;">
+            <div class="logo-container" style="display: flex; align-items: center; gap: 15px;">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="logo-text">AUSTRALIA VISA AGENT</div>
+                    <div class="powered-by">powered by itsolutions.mm(0949567820)</div>
+                </div>
+            </div>
+
+            <div class="nav-links" style="display: flex; gap: 20px; align-items: center;">
+                <a href="/" class="nav-btn active">Dashboard</a>
+                <a href="https://drive.google.com/drive/u/1/folders/1k0hpCHUauXuPYbDjWJF9f5PhoNI1kaEO" target="_blank"
+                    class="nav-btn" style="display: flex; align-items: center; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    Upload Documents
+                </a>
+                <a href="/alerts" class="nav-btn">AI Communications</a>
+            </div>
+
+            <div class="system-status">
+                <div class="status-dot"></div>
+                AGENT SYSTEM ACTIVE
+            </div>
+        </header>
+
+        <div class="stats-grid" id="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Processed</div>
+                <div class="stat-value" id="total-val">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Verified (Passed)</div>
+                <div class="stat-value" style="color: var(--success)" id="passed-val">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Needs Review</div>
+                <div class="stat-value" style="color: var(--warning)" id="review-val">0</div>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <div class="panel-title">Active Applications</div>
+                    <div class="badge badge-Passed"
+                        style="background: rgba(255,255,255,0.05); color: var(--text-secondary);">
+                        Real-time Monitoring
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table id="apps-table">
+                        <thead>
+                            <tr>
+                                <th>Document Name</th>
+                                <th>Subclass</th>
+                                <th>Status</th>
+                                <th>Score</th>
+                                <th>Processed At</th>
+                                <th>Expiry</th>
+                            </tr>
+                        </thead>
+                        <tbody id="apps-tbody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="glass-panel insights-panel" id="insights-panel">
+                <div style="text-align: center; color: var(--text-secondary); padding-top: 100px;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        style="margin-bottom: 20px; opacity: 0.2;">
+                        <path
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                        </path>
+                    </svg>
+                    <p>Select an application to view AI Insights and Checklist progress</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentApps = [];
+        let activeAppId = null;
+
+        async function updateDashboard() {
+            try {
+                // Update Stats
+                const statsRes = await fetch('/api/stats');
+                const stats = await statsRes.json();
+                document.getElementById('total-val').innerText = stats.total;
+                document.getElementById('passed-val').innerText = stats.passed;
+                document.getElementById('review-val').innerText = stats.needs_review;
+
+                // Update Table
+                const appsRes = await fetch('/api/applications');
+                const apps = await appsRes.json();
+
+                const tbody = document.getElementById('apps-tbody');
+
+                // Only re-render if data changed
+                if (JSON.stringify(apps) !== JSON.stringify(currentApps)) {
+                    currentApps = apps;
+                    tbody.innerHTML = '';
+                    apps.forEach(app => {
+                        const tr = document.createElement('tr');
+                        if (app.id === activeAppId) tr.classList.add('active');
+                        tr.onclick = () => showInsights(app);
+
+                        tr.innerHTML = `
+                    <td style="font-weight: 500">${app.file_name}</td>
+                    <td>${app.visa_subclass}</td>
+                    <td><span class="badge badge-${app.status.split(' ')[0]}">${app.status}</span></td>
+                    <td>
+                        <div class="score-circle" style="border-color: ${getScoreColor(app.score)}">
+                            ${app.score}%
+                        </div>
+                    </td>
+                    <td style="color: var(--text-secondary); font-size: 13px;">${app.processed_at}</td>
+                    <td>${formatExpiry(app.expiry_date)}</td>
+                    `;
+                        tbody.appendChild(tr);
+                    });
+                }
+            } catch (err) {
+                console.error('Error updating dashboard:', err);
+            }
+        }
+
+        function getScoreColor(score) {
+            if (score >= 80) return 'var(--success)';
+            if (score >= 50) return 'var(--warning)';
+            return 'var(--danger)';
+        }
+
+        function formatExpiry(dateStr) {
+            if (!dateStr) return '<span style="color: var(--text-secondary)">-</span>';
+            const expiry = new Date(dateStr);
+            const now = new Date();
+            const diffDays = Math.ceil((expiry - now) / (1000 * 60 * 60 * 24));
+
+            let color = 'var(--text-secondary)';
+            if (diffDays <= 0) color = 'var(--danger)'; // Expired
+            else if (diffDays <= 30) color = 'var(--danger)'; // Critical
+            else if (diffDays <= 90) color = '#fbbf24'; // Warning (amber)
+
+            return `<span style="color: ${color}; font-weight: 500;">${dateStr} ${diffDays <= 0 ? '(EXPIRED)' : ''}</span>`;
+        }
+
+        async function showInsights(app) {
+            activeAppId = app.id;
+            const panel = document.getElementById('insights-panel');
+
+            // Highlight active row
+            document.querySelectorAll('#apps-tbody tr').forEach(tr => tr.classList.remove('active'));
+            const rows = document.querySelectorAll('#apps-tbody tr');
+            const clickedRow = Array.from(rows).find(row => row.innerText.includes(app.file_name));
+            if (clickedRow) clickedRow.classList.add('active');
+
+            // Load Checklist
+            let checklistHtml = '<div style="text-align: center; padding: 20px;">Loading requirements...</div>';
+            panel.innerHTML = `
+                    <div class="panel-header" style="border: none; padding-bottom: 10px;">
+                        <div class="panel-title">AI Insights: ${app.file_name}</div>
+                    </div>
+                    <div class="insight-section">
+                        <h4>Compliance Overview</h4>
+                        <div class="insight-card">
+                            <div class="insight-tag" style="background: ${getScoreColor(app.score)}20; color: ${getScoreColor(app.score)}">
+                                Overall Confidence: ${app.score}%
+                            </div>
+                            <p style="font-size: 14px; line-height: 1.6;">${app.analysis?.summary || 'No summary available.'}</p>
+                        </div>
+                    </div>
+                    <div class="insight-section">
+                        <h4>Requirement Checklist</h4>
+                        <div id="checklist-container" class="insight-card">
+                            ${checklistHtml}
+                        </div>
+                    </div>
+                    <div class="insight-section" id="readiness-section">
+                        <h4>Application Readiness</h4>
+                        ${app.applicant_id ? `
+                            <button onclick="loadReadinessReport(${app.applicant_id})" class="badge" style="background: var(--primary); color: white; border: none; padding: 10px 20px; width: 100%; cursor: pointer; margin-bottom: 15px;">
+                                View Consolidated Readiness Report
+                            </button>
+                        ` : `
+                            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 10px;">
+                                This document is not yet linked to an applicant group.
+                            </div>
+                            <button onclick="loadSingleDocumentReadiness('${app.file_name}', '${app.visa_subclass}')" class="badge" style="background: var(--glass-border); color: white; border: 1px solid var(--glass-border); padding: 10px 20px; width: 100%; cursor: pointer; margin-bottom: 15px;">
+                                Analyze This Document's Readiness
+                            </button>
+                        `}
+                        <div id="readiness-container"></div>
+                    </div>
+                    <div class="insight-section">
+                        <h4>Key Findings</h4>
+                        ${(app.analysis?.findings || []).map(f => `
+                        <div class="insight-card" style="font-size: 13px; border-left: 4px solid var(--primary);">
+                            ${f}
+                        </div>
+                    `).join('')}
+                    </div>
+                    `;
+
+            try {
+                const checkRes = await fetch(`/api/checklist/${app.visa_subclass}`);
+                const checklist = await checkRes.json();
+                const checkContainer = document.getElementById('checklist-container');
+
+                if (checklist.length === 0) {
+                    checkContainer.innerHTML = '<p style="color: var(--text-secondary); font-size: 13px;">No specific requirements found for this subclass.</p>';
+                } else {
+                    const docType = (app.document_type || '').toLowerCase();
+                    checkContainer.innerHTML = checklist.map(item => {
+                        const itemName = (item.name || '').toLowerCase();
+                        const isMatch = docType && itemName && itemName === docType;
+                        return `
+                    <div class="checklist-item">
+                        <div class="check-dot ${isMatch ? 'completed' : ''}">
+                            ${isMatch ? '✓' : ''}
+                        </div>
+                        <div style="${isMatch ? 'color: var(--success); font-weight: 500' : ''}">
+                            ${item.name} ${item.required ? '<span style="color: var(--danger); font-size: 10px;">*</span>' : ''}
+                        </div>
+                    </div>
+                        `;
+                    }).join('');
+                }
+            } catch (err) {
+                console.error('Error fetching checklist:', err);
+            }
+        }
+
+        async function loadReadinessReport(applicantId) {
+            const container = document.getElementById('readiness-container');
+            container.innerHTML = '<div style="text-align: center; padding: 20px;">Generating Consolidated Report...</div>';
+
+            try {
+                const res = await fetch(`/api/applicant/${applicantId}/readiness`);
+                const data = await res.json();
+
+                if (data.error) {
+                    container.innerHTML = `<div style="color: var(--danger); font-size: 13px;">${data.error}</div>`;
+                    return;
+                }
+
+                // Format the AI response (basic markdown-like formatting)
+                const formattedResponse = data.response
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n/g, '<br>');
+
+                container.innerHTML = `
+                    <div class="insight-card" style="border-left: 4px solid var(--success); font-size: 14px; line-height: 1.6;">
+                        ${formattedResponse}
+                    </div>
+                `;
+            } catch (err) {
+                console.error('Error loading readiness report:', err);
+                container.innerHTML = '<div style="color: var(--danger); font-size: 13px;">Error generating report.</div>';
+            }
+        }
+
+        async function loadSingleDocumentReadiness(fileName, visaSubclass) {
+            const container = document.getElementById('readiness-container');
+            container.innerHTML = '<div style="text-align: center; padding: 20px;">Analyzing Document Readiness...</div>';
+
+            try {
+                // Here we can use the existing chat endpoint to act as a "readiness" report for a single file
+                const prompt = `Please provide a readiness-style report for this specific document: ${fileName} for Visa Subclass ${visaSubclass}. Focus on what is missing or correct about this one file in relation to the subclass requirements.`;
+
+                const res = await fetch(`/api/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: prompt })
+                });
+                const data = await res.json();
+
+                if (data.error) {
+                    container.innerHTML = `<div style="color: var(--danger); font-size: 13px;">${data.error}</div>`;
+                    return;
+                }
+
+                const formattedResponse = data.response
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n/g, '<br>');
+
+                container.innerHTML = `
+                    <div class="insight-card" style="border-left: 4px solid var(--warning); font-size: 14px; line-height: 1.6;">
+                        ${formattedResponse}
+                    </div>
+                `;
+            } catch (err) {
+                console.error('Error loading single doc readiness:', err);
+                container.innerHTML = '<div style="color: var(--danger); font-size: 13px;">Error analyzing document.</div>';
+            }
+        }
+
+        // Poll every 5 seconds
+        setInterval(updateDashboard, 5000);
+        updateDashboard();
+    </script>
+    <script src="/static/chat.js"></script>
+</body>
+
+</html>

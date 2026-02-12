@@ -1,0 +1,13 @@
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib
+openai
+sqlalchemy
+python-dotenv
+cryptography
+PyPDF2
+flask
+rarfile
+tavily-python
+pymupdf
+schedule

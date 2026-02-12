@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Communications | Australia Visa Agent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #557aff;
+            --primary-rgb: 85, 122, 255;
+            --accent: #00f2fe;
+            --success: #00d285;
+            --warning: #ffb300;
+            --danger: #ff4d4d;
+            --bg: #030712;
+            --glass: rgba(17, 24, 39, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at 10% 10%, rgba(var(--primary-rgb), 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(var(--primary-rgb), 0.1) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .title-row {
+            margin-bottom: 30px;
+        }
+
+        .title-row h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .title-row p {
+            color: var(--text-secondary);
+        }
+
+        .action-bar {
+            background: var(--glass);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--glass);
+            color: white;
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .alerts-grid {
+            display: grid;
+            grid-template-columns: 1fr 500px;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .panel {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+
+        .panel-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.02);
+            font-weight: 600;
+        }
+
+        .alert-list {
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .alert-item {
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .alert-item:hover {
+            background: rgba(var(--primary-rgb), 0.05);
+        }
+
+        .alert-item.active {
+            background: rgba(var(--primary-rgb), 0.1);
+            border-left: 4px solid var(--primary);
+        }
+
+        .alert-item .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .alert-item .applicant {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .alert-item .type {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 100px;
+        }
+
+        .type-missing {
+            background: rgba(255, 179, 0, 0.15);
+            color: var(--warning);
+        }
+
+        .type-confidence {
+            background: rgba(255, 77, 77, 0.15);
+            color: var(--danger);
+        }
+
+        .type-success {
+            background: rgba(0, 210, 133, 0.15);
+            color: var(--success);
+        }
+
+        .type-expiry {
+            background: rgba(var(--primary-rgb), 0.15);
+            color: var(--primary);
+        }
+
+        .alert-item .meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .preview-panel {
+            padding: 30px;
+            position: sticky;
+            top: 40px;
+        }
+
+        #email-preview {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 20px;
+            min-height: 400px;
+            font-size: 14px;
+            line-height: 1.4;
+            color: #d1d5db;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+        }
+
+        #email-preview p {
+            margin-top: 0;
+            margin-bottom: 2px;
+        }
+
+        #email-preview ul {
+            margin-bottom: 5px;
+            padding-left: 20px;
+        }
+
+        #email-preview li {
+            margin-bottom: 0px;
+        }
+
+        #email-preview:focus {
+            background: rgba(var(--primary-rgb), 0.05);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.1);
+        }
+
+        .editable-input:focus {
+            border-color: var(--primary) !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--text-secondary);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        /* Loading Spinner */
+        .loader {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div
+                    style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                    </svg>
+                </div>
+                <div style="font-size: 20px; font-weight: 700;">AI Communications</div>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-btn">Dashboard</a>
+                <a href="https://drive.google.com/drive/u/1/folders/1k0hpCHUauXuPYbDjWJF9f5PhoNI1kaEO" target="_blank"
+                    class="nav-btn" style="display: flex; align-items: center; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    Upload Documents
+                </a>
+                <a href="/alerts" class="nav-btn active">Communications</a>
+            </div>
+        </header>
+
+        <div class="title-row">
+            <h1>Personalized Client Alerts</h1>
+            <p>Review and send AI-powered email notifications for document issues.</p>
+        </div>
+
+        <div class="action-bar">
+            <div style="display: flex; gap: 15px;">
+                <button onclick="scanForAlerts()" class="btn btn-primary" id="scan-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9h9">
+                        </path>
+                    </svg>
+                    Scan for Issues
+                </button>
+                <div id="scan-status" style="font-size: 14px; color: var(--text-secondary); align-self: center;"></div>
+            </div>
+            <div class="system-status" style="font-size: 13px; color: var(--text-secondary);">
+                Email Tracking Active
+            </div>
+        </div>
+
+        <div class="alerts-grid">
+            <div class="panel">
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('inbox')">Pending Alerts</div>
+                    <div class="tab" onclick="switchTab('history')">Sent History</div>
+                </div>
+                <div class="alert-list" id="alert-list">
+                    <!-- Alerts populated by JS -->
+                </div>
+            </div>
+
+            <div class="panel preview-panel">
+                <div class="panel-header" style="border: none; padding: 0 0 20px 0; background: transparent;">
+                    Preview Draft
+                </div>
+                <div id="preview-container">
+                    <div class="empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1" style="margin-bottom: 20px; opacity: 0.3;">
+                            <path
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                        <p>Select an alert from the list to preview the AI-generated message</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTab = 'inbox';
+        let selectedAlertId = null;
+
+        async function loadAlerts() {
+            const list = document.getElementById('alert-list');
+            list.innerHTML = '<div class="empty-state">Loading alerts...</div>';
+
+            try {
+                // We'll use our new endpoint for history or fetch pending from applications
+                const endpoint = currentTab === 'inbox' ? '/api/applications' : '/api/alerts/history';
+                const response = await fetch(endpoint);
+                const data = await response.json();
+
+                if (currentTab === 'inbox') {
+                    // Filter applications that need review, have missing elements/low confidence OR were recently passed
+                    const pending = data.filter(app =>
+                        app.status === 'Needs Review' ||
+                        app.status === 'Passed' ||
+                        (app.confidence_score && app.confidence_score < 70)
+                    );
+
+                    if (pending.length === 0) {
+                        list.innerHTML = '<div class="empty-state">No pending alerts found.</div>';
+                        return;
+                    }
+
+                    list.innerHTML = pending.map(app => {
+                        let type = 'missing';
+                        let typeLabel = 'Missing Elements';
+                        if (app.status === 'Passed') {
+                            type = 'success';
+                            typeLabel = 'Verification Successful';
+                        } else if (app.confidence_score && app.confidence_score < 70) {
+                            type = 'confidence';
+                            typeLabel = 'Low Confidence';
+                        }
+
+                        return `
+                            <div class="alert-item" onclick="previewAlert(${app.id}, '${type}')" id="alert-${app.id}">
+                                <div class="header">
+                                    <div class="applicant">${app.file_name}</div>
+                                    <div class="type type-${type}">${typeLabel}</div>
+                                </div>
+                                <div class="meta">
+                                    Document ID: ${app.id} • Processed: ${app.processed_at}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    // History view
+                    if (data.length === 0) {
+                        list.innerHTML = '<div class="empty-state">No sent communications yet.</div>';
+                        return;
+                    }
+
+                    list.innerHTML = data.map(alert => {
+                        let type = alert.type.replace('ai_alert_', '');
+                        let typeLabel = type === 'missing_elements' ? 'Missing Elements' :
+                            type === 'low_confidence' ? 'Low Confidence' : 'Document Alert';
+
+                        return `
+                            <div class="alert-item">
+                                <div class="header">
+                                    <div class="applicant" style="font-size: 14px;">${alert.message}</div>
+                                    <div class="type type-${type.includes('missing') ? 'missing' : 'confidence'}">${typeLabel}</div>
+                                </div>
+                                <div class="meta">
+                                    Sent: ${alert.sent_at} • Doc ID: ${alert.document_id}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            } catch (err) {
+                console.error(err);
+                list.innerHTML = '<div class="empty-state">Error loading alerts.</div>';
+            }
+        }
+
+        async function previewAlert(id, type) {
+            selectedAlertId = id;
+            const container = document.getElementById('preview-container');
+
+            // Highlight active
+            document.querySelectorAll('.alert-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(`alert-${id}`).classList.add('active');
+
+            container.innerHTML = '<div class="empty-state"><div class="loader"></div><p>AI is drafting your email...</p></div>';
+
+            try {
+                const response = await fetch(`/api/alerts/preview/${id}?type=${type === 'missing' ? 'missing_elements' : 'low_confidence'}`);
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                container.innerHTML = `
+                    <div style="margin-bottom: 20px; background: rgba(var(--primary-rgb), 0.1); padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary);">
+                        <div style="display: flex; gap: 10px; margin-bottom: 12px; align-items: center;">
+                            <span style="color: var(--text-secondary); font-size: 13px; width: 60px;">To:</span>
+                            <div style="flex: 1; display: flex; align-items: center; gap: 5px;">
+                                <span style="font-weight: 600; font-size: 14px; color: var(--text-primary);">${data.applicant.name}</span>
+                                <input type="text" id="edit-recipient-email" value="${data.applicant.email}" class="editable-input" 
+                                    style="background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--primary); padding: 2px 8px; border-radius: 4px; font-size: 14px; flex: 1; outline: none; transition: 0.2s;">
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span style="color: var(--text-secondary); font-size: 13px; width: 60px;">Subject:</span>
+                            <input type="text" id="edit-subject" value="${data.email.subject}" class="editable-input" 
+                                style="flex: 1; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--primary); padding: 4px 8px; border-radius: 4px; font-weight: 600; font-size: 14px; outline: none; transition: 0.2s;">
+                        </div>
+                    </div>
+                    <div id="email-preview" contenteditable="true" style="outline: none; border: 1px dashed rgba(var(--primary-rgb), 0.3);">${data.email.body}</div>
+                    <div style="margin-top: 10px; font-size: 11px; color: var(--text-secondary); text-align: right;">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        Click text to edit draft
+                    </div>
+                    <div style="margin-top: 20px; display: flex; gap: 15px;">
+                        <button onclick="sendAlert(${id}, '${type}')" class="btn btn-success" style="flex: 1;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
+                            Send Finalized Email
+                        </button>
+                        <button onclick="dismissAlert(${id})" class="btn btn-secondary">Dismiss</button>
+                    </div>
+                `;
+            } catch (err) {
+                container.innerHTML = `<div class="empty-state" style="color: var(--danger)">Error generating preview: ${err.message}</div>`;
+            }
+        }
+
+        async function scanForAlerts() {
+            const btn = document.getElementById('scan-btn');
+            const status = document.getElementById('scan-status');
+            btn.disabled = true;
+            status.innerHTML = '<div class="loader" style="margin-right: 10px;"></div> AI is scanning documents...';
+
+            try {
+                const response = await fetch('/api/alerts/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type: 'all' })
+                });
+                const data = await response.json();
+
+                status.innerHTML = `✅ Generated ${data.alerts_generated} alert drafts.`;
+                loadAlerts();
+            } catch (err) {
+                status.innerHTML = '❌ Scan failed.';
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        async function sendAlert(id, type) {
+            const btn = event.target.closest('button');
+            const originalContent = btn.innerHTML;
+
+            // Collect edited data
+            const recipientEmail = document.getElementById('edit-recipient-email')?.value;
+            const subject = document.getElementById('edit-subject')?.value;
+            const body = document.getElementById('email-preview')?.innerHTML;
+
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loader"></div> Sending...';
+
+            try {
+                const response = await fetch(`/api/alerts/send`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        document_id: id,
+                        type: type,
+                        recipient_email: recipientEmail,
+                        subject: subject,
+                        body: body
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Email sent successfully!');
+                    loadAlerts();
+                    document.getElementById('preview-container').innerHTML = `
+                        <div class="empty-state">
+                            <div style="color: var(--success); font-size: 48px; margin-bottom: 20px;">✓</div>
+                            <p>Email sent successfully!</p>
+                        </div>
+                    `;
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to send email');
+                }
+            } catch (err) {
+                alert('Error: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalContent;
+            }
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            loadAlerts();
+        }
+
+        loadAlerts();
+    </script>
+</body>
+
+</html>
