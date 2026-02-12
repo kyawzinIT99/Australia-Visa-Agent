@@ -320,7 +320,15 @@ class VisaAgent:
 
         if existing_app:
             print(f"  → Updating existing record for {file_name}")
-            existing_app.document_id = file_id
+            
+            # Smart ID Update Logic:
+            # Only update document_id if the new ID is a real Drive file (no ':') 
+            # OR if the existing ID is already a composite/broken ID (has ':').
+            # This prevents overwriting a valid "Online Link" with a composite archive ID.
+            if ':' not in file_id or (existing_app.document_id and ':' in existing_app.document_id):
+                existing_app.document_id = file_id
+            else:
+                print(f"  ℹ Preserving valid link {existing_app.document_id} (ignoring composite {file_id})")
             existing_app.visa_subclass = visa_subclass
             existing_app.document_type = doc_type
             completeness_score = analysis.get('completeness_score', 0)

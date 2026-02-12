@@ -523,73 +523,75 @@
                 <a href="/alerts" class="nav-btn">AI Communications</a>
             </div>
 
-            <div class="system-status">
-                <div class="status-dot"></div>
-                AGENT SYSTEM ACTIVE
-            </div>
-        </header>
+            AGENT SYSTEM ACTIVE
+    </div>
 
-        <div class="stats-grid" id="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Total Processed</div>
-                <div class="stat-value" id="total-val">0</div>
+
+    </header>
+
+    <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">Total Processed</div>
+            <div class="stat-value" id="total-val">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Verified (Passed)</div>
+            <div class="stat-value" style="color: var(--success)" id="passed-val">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Needs Review</div>
+            <div class="stat-value" style="color: var(--warning)" id="review-val">0</div>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="glass-panel">
+            <div class="panel-header">
+                <div class="panel-title">Active Applications</div>
+                <div class="badge badge-Passed"
+                    style="background: rgba(255,255,255,0.05); color: var(--text-secondary);">
+                    Real-time Monitoring
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Verified (Passed)</div>
-                <div class="stat-value" style="color: var(--success)" id="passed-val">0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Needs Review</div>
-                <div class="stat-value" style="color: var(--warning)" id="review-val">0</div>
+            <div class="table-container">
+                <table id="apps-table">
+                    <thead>
+                        <tr>
+                            <th>Document Name</th>
+                            <th>Subclass</th>
+                            <th>Status</th>
+                            <th>Score</th>
+                            <th>Processed At</th>
+                            <th>Expiry</th>
+                        </tr>
+                    </thead>
+                    <tbody id="apps-tbody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <div class="dashboard-content">
-            <div class="glass-panel">
-                <div class="panel-header">
-                    <div class="panel-title">Active Applications</div>
-                    <div class="badge badge-Passed"
-                        style="background: rgba(255,255,255,0.05); color: var(--text-secondary);">
-                        Real-time Monitoring
-                    </div>
-                </div>
-                <div class="table-container">
-                    <table id="apps-table">
-                        <thead>
-                            <tr>
-                                <th>Document Name</th>
-                                <th>Subclass</th>
-                                <th>Status</th>
-                                <th>Score</th>
-                                <th>Processed At</th>
-                                <th>Expiry</th>
-                            </tr>
-                        </thead>
-                        <tbody id="apps-tbody">
-                            <!-- Populated by JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="glass-panel insights-panel" id="insights-panel">
-                <div style="text-align: center; color: var(--text-secondary); padding-top: 100px;">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                        style="margin-bottom: 20px; opacity: 0.2;">
-                        <path
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                        </path>
-                    </svg>
-                    <p>Select an application to view AI Insights and Checklist progress</p>
-                </div>
+        <div class="glass-panel insights-panel" id="insights-panel">
+            <div style="text-align: center; color: var(--text-secondary); padding-top: 100px;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                    style="margin-bottom: 20px; opacity: 0.2;">
+                    <path
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                    </path>
+                </svg>
+                <p>Select an application to view AI Insights and Checklist progress</p>
             </div>
         </div>
+    </div>
 
     </div>
 
     <script>
         let currentApps = [];
         let activeAppId = null;
+
+
 
         async function updateDashboard() {
             try {

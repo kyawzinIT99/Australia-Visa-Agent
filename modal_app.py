@@ -7,6 +7,16 @@ app = modal.App("australia-visa-agent")
 # Define the image with all dependencies
 image = (
     modal.Image.debian_slim(python_version="3.11")
+    .apt_install(
+        "tesseract-ocr",
+        "libtesseract-dev",
+        "poppler-utils",
+        "file",
+        "libgl1",
+        "fonts-liberation",
+        "fonts-dejavu",
+        "fontconfig",
+    )
     .pip_install(
         "google-api-python-client",
         "google-auth-httplib2",
@@ -99,6 +109,11 @@ def agent_worker():
     print("🤖 Starting agent worker...")
     init_db()
     agent = VisaAgent()
+    
+    # Recover any files stuck in processing folder
+    agent.recover_stuck_files()
+    
+    # Process new files from incoming folder
     agent.run_once()
     print("✅ Agent worker completed")
 
